@@ -73,7 +73,7 @@ export class BotService {
                 `${YTDL_PATH} -o ${VK_VIDEO_NAME} ${ctx.message.text}`,
                 async (error, stdout, stderr) => {
                   if (error) {
-                    console.log('stderr: SERVICE - VK.COM', stderr);
+                    console.log('stderr: [SERVICE] - VK.COM', stderr);
                   }
 
                   console.log(stdout);
@@ -96,12 +96,18 @@ export class BotService {
                   await unlink(VK_VIDEO_NAME);
                 } catch (err) {
                   console.log(err);
+
+                  unlink(VK_VIDEO_NAME).catch((error)=> console.log(error));
+
                   await ctx.reply(ERROR_MESSAGE);
                 }
               });
 
               subprocess.on('error', async (err) => {
                 console.log(err);
+
+                unlink(VK_VIDEO_NAME).catch((error)=> console.log(error));
+
                 await ctx.reply(ERROR_MESSAGE);
               });
             }
@@ -117,7 +123,7 @@ export class BotService {
                 `${YTDL_PATH} -i -o ${DZEN_VIDEO_NAME} ${streamURL}`,
                 async (error, stdout, stderr) => {
                   if (error) {
-                    console.log('stderr: SERVICE - DZEN.RU ', stderr);
+                    console.log('stderr: [SERVICE] - DZEN.RU ', stderr);
                   }
 
                   console.log(stdout);
@@ -142,12 +148,18 @@ export class BotService {
                   await unlink(DZEN_VIDEO_NAME);
                 } catch (err) {
                   console.log(err);
+
+                  unlink(VK_VIDEO_NAME).catch((error)=> console.log(error));
+
                   await ctx.reply(ERROR_MESSAGE);
                 }
               });
 
               subprocess.on('error', async (err) => {
                 console.log(err);
+
+                unlink(VK_VIDEO_NAME).catch((error)=> console.log(error));
+
                 await ctx.reply(ERROR_MESSAGE);
               });
             }
@@ -161,6 +173,9 @@ export class BotService {
         }
       } catch (err) {
         console.log(err);
+
+        unlink(VK_VIDEO_NAME).catch((error)=> console.log(error));
+
         await ctx.reply(ERROR_MESSAGE);
       }
     });
