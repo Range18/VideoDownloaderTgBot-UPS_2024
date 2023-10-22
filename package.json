@@ -1,0 +1,46 @@
+{
+  "name": "video-downloader",
+  "version": "1.0.0",
+  "description": "Telegram bot to download videos from YouTube, VK, Dzen",
+  "main": "main.js",
+  "author": "Range",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" ",
+    "start": "tsc && node dist/main.js",
+    "start:dev": "npx nodemon ./src/main.ts",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+  },
+  "dependencies": {
+    "@types/pg": "^8.10.7",
+    "dotenv": "^16.3.1",
+    "env-var": "^7.4.1",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.11.3",
+    "telegraf": "^4.14.0",
+    "tslib": "^2.6.2",
+    "typeorm": "^0.3.17",
+    "ytdl-core": "^4.11.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20",
+    "@types/node": "18.15.11",
+    "@types/node-fetch": "^2.6.6",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^2.3.2",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "4.2.0",
+    "typescript": "^4.7.4"
+  }
+}
