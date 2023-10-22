@@ -3,7 +3,6 @@ import { botConfig } from './config.js';
 import ytdl from 'ytdl-core';
 import { message } from 'telegraf/filters';
 import * as child_process from 'child_process';
-import * as console from 'console';
 import { createReadStream } from 'fs';
 import { unlink } from 'node:fs/promises';
 import {

@@ -29,9 +29,6 @@
     "noLib": false,
     "outDir": "dist",
     "baseUrl": "./",
-    "lib": [
-      "ESNext"
-    ],
   },
   "ts-node": {
     "esm": true

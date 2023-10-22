@@ -42,8 +42,4 @@ yarn-error.log
 .env
 
 #Temp files
-.storage/*
-#.storage/ffmpeg.exe
-#.storage/ffplay.exe
-#.storage/ffprobe.exe
-!.storage/yt-dlp.exe
+storage

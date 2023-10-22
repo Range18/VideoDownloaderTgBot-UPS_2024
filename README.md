@@ -14,12 +14,9 @@ $ yarn install
 # build 
 $ yarn run build
 
-# development
+# run
 $ yarn run start
 
 # watch mode
 $ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
 ```

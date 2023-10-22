@@ -1,21 +1,20 @@
-import pkg from 'env-var';
-const { get } = pkg;
+import env from 'env-var';
 import 'dotenv/config';
 import { DataSourceOptions } from 'typeorm';
 import { VideoEntity } from './video.entity.js';
 
 export const botConfig = {
-  token: get('TOKEN').required().asString(),
+  token: env.get('TOKEN').required().asString(),
 };
 
 export const databaseConfig: DataSourceOptions = {
-  port: get('DB_PORT').required().asPortNumber(),
-  host: get('DB_HOST').default('localhost').asString(),
-  database: get('DB_NAME').required().asString(),
-  username: get('DB_USER').required().asString(),
-  password: get('DB_PASSWORD').required().asString(),
-  synchronize: get('DB_SYNC').default('false').asBool(),
-  dropSchema: get('DB_DROP').default('false').asBool(),
+  port: env.get('DB_PORT').required().asPortNumber(),
+  host: env.get('DB_HOST').default('localhost').asString(),
+  database: env.get('DB_NAME').required().asString(),
+  username: env.get('DB_USER').required().asString(),
+  password: env.get('DB_PASSWORD').required().asString(),
+  synchronize: env.get('DB_SYNC').default('false').asBool(),
+  dropSchema: env.get('DB_DROP').default('false').asBool(),
   type: 'postgres',
   entities: [VideoEntity],
 };

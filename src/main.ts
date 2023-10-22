@@ -1,5 +1,4 @@
 import { BotService } from './bot.service.js';
-import * as console from 'console';
 import { databaseConfig } from './config.js';
 import { DatabaseService } from './database.service.js';
 
@@ -11,6 +10,8 @@ async function bootstrap() {
   await database.connect();
 
   await bot.launch();
+  console.log('Bot started')
+
 }
 
 bootstrap().then(() => console.log('Bot started'));
