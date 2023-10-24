@@ -7,6 +7,7 @@ import {
   ERROR_MESSAGE,
   INVALID_URL_MESSAGE,
   START_CMD_MESSAGE,
+  TELEGRAM_API_PATH,
   YTDL_PATH,
 } from './constants.js';
 import { database } from './main.js';
@@ -20,8 +21,12 @@ export class BotService {
 
   private readonly videoRepository: Repository<ObjectLiteral>;
 
+  private readonly userRequests: Set<number>;
+
   constructor() {
     this.BotInstance = new Telegraf<Context>(botConfig.token);
+
+    this.userRequests = new Set<number>();
 
     this.videoRepository = database.getRepository(VideoEntity);
   }
@@ -32,12 +37,20 @@ export class BotService {
     });
 
     this.BotInstance.on(message('text'), async (ctx) => {
+      if (this.isRequestInProcess(ctx.chat.id)) {
+        ctx.reply('Ваш запрос в обработке. Пожалуйста подождите...');
+        return;
+      }
+
+      this.addUserRequest(ctx.chat.id);
+
       const videoEntity = await this.videoRepository.findOne({
         where: { url: ctx.message.text },
       });
 
       if (videoEntity) {
         await ctx.sendVideo(Input.fromFileId(videoEntity.fieldId));
+        this.removeUserRequest(ctx.chat.id);
         return;
       }
 
@@ -52,6 +65,7 @@ export class BotService {
 
         if (!url) {
           ctx.reply(INVALID_URL_MESSAGE);
+          this.removeUserRequest(ctx.chat.id);
           return;
         }
 
@@ -71,7 +85,15 @@ export class BotService {
         subprocess.on('error', async (error) => {
           console.log('Something went wrong at subprocess downloading video');
           console.log(error);
+
+          this.removeUserRequest(ctx.chat.id);
+
           await ctx.reply(ERROR_MESSAGE);
+        });
+
+        //Showing the process of downloading in bot`s console
+        subprocess.stderr.on('data', (data) => {
+          console.log(data.toString());
         });
 
         subprocess.on('close', async () => {
@@ -96,13 +118,20 @@ export class BotService {
                 url: ctx.message.text,
               });
             }
+
+            this.removeUserRequest(ctx.chat.id);
           } catch (error) {
             console.log('Something went wrong uploading video');
             console.log(error);
+
+            this.removeUserRequest(ctx.chat.id);
+
             await ctx.reply(ERROR_MESSAGE);
           }
         });
       } else {
+        this.removeUserRequest(ctx.chat.id);
+
         await ctx.reply(INVALID_URL_MESSAGE);
       }
     });
@@ -112,6 +141,18 @@ export class BotService {
 
   getInstance() {
     return this.BotInstance;
+  }
+
+  private isRequestInProcess(chatId: number): boolean {
+    return this.userRequests.has(chatId);
+  }
+
+  private addUserRequest(chatId: number): void {
+    this.userRequests.add(chatId);
+  }
+
+  private removeUserRequest(chatId: number): void {
+    this.userRequests.delete(chatId);
   }
 
   private async extractStreamUrlDzen(url: string): Promise<string | undefined> {

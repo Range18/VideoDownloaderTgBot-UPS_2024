@@ -5,7 +5,7 @@ import { VideoEntity } from './video.entity.js';
 
 export const botConfig = {
   token: env.get('TOKEN').required().asString(),
-  appId: env.get('APP_ID').required().asString(),
+  appId: env.get('APP_ID').required().asInt(),
   apiHash: env.get('API_HASH').required().asString(),
 };
 

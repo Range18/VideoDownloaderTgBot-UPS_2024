@@ -11,6 +11,8 @@ export const TELEGRAM_API_PATH = resolve(
   'telegram-bot-api.exe',
 );
 
+export const TELEGRAM_API_LOGS = resolve(process.cwd(), 'temp');
+
 export const START_CMD_MESSAGE =
   'Привет, я помогу скачать тебе видео или сторис с <b>YouTube, VK, Dzen</b>' +
   '\nПросто отправь мне ссылку на ресурс';
