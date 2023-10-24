@@ -1,17 +1,21 @@
 import { resolve } from 'path';
 
-export const DOMAINS_REGEX = RegExp(/(vk\.com|youtube\.com|dzen\.ru)/);
+export const DOMAINS_REGEX = RegExp(
+  /(vk\.com|youtube\.com|dzen\.ru|youtu\.be)/,
+);
 export const YTDL_PATH = resolve(process.cwd(), 'bin', 'yt-dlp.exe');
 
-export const STORAGE_PATH = resolve(process.cwd(), 'storage');
-
-export const VK_VIDEO_NAME = resolve(STORAGE_PATH, 'videoVK.mp4');
-
-export const DZEN_VIDEO_NAME = resolve(STORAGE_PATH, 'videoDZEN.mp4');
+export const TELEGRAM_API_PATH = resolve(
+  process.cwd(),
+  'bin',
+  'telegram-bot-api.exe',
+);
 
 export const START_CMD_MESSAGE =
-  'Hi! I will help you download videos from YouTube, VK, Dzen';
+  'Привет, я помогу скачать тебе видео или сторис с <b>YouTube, VK, Dzen</b>' +
+  '\nПросто отправь мне ссылку на ресурс';
 
-export const HELP_CMD_MESSAGE = 'Just send me link';
+export const INVALID_URL_MESSAGE =
+  'Неправильные домен или ссылка. Скачивание возможно только с youtube.com (youtu.be), vk.com, dzen.ru';
 
-export const ERROR_MESSAGE = 'Something went wrong';
+export const ERROR_MESSAGE = 'Что-то пошло не так :/';
