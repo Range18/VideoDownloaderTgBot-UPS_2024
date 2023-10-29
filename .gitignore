@@ -38,6 +38,9 @@ lerna-debug.log*
 yarn.lock
 yarn-error.log
 
+#npm
+package-lock.json
+
 #env
 .env
 

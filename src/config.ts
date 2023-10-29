@@ -1,7 +1,9 @@
 import env from 'env-var';
 import 'dotenv/config';
-import { DataSourceOptions } from 'typeorm';
+import {DataSource, DataSourceOptions} from 'typeorm';
 import { VideoEntity } from './video.entity.js';
+
+
 
 export const botConfig = {
   token: env.get('TOKEN').required().asString(),
@@ -15,8 +17,11 @@ export const databaseConfig: DataSourceOptions = {
   database: env.get('DB_NAME').required().asString(),
   username: env.get('DB_USER').required().asString(),
   password: env.get('DB_PASSWORD').required().asString(),
-  synchronize: env.get('DB_SYNC').default('false').asBool(),
-  dropSchema: env.get('DB_DROP').default('false').asBool(),
+  synchronize: false,
+  dropSchema: false,
   type: 'postgres',
   entities: [VideoEntity],
 };
+
+export const dataSource = new DataSource(databaseConfig);
+

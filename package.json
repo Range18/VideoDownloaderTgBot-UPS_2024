@@ -8,12 +8,14 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "typeorm:sync": "typeorm -d ./dist/config.js schema:sync",
+    "typeorm:drop": "typeorm -d ./dist/config.js schema:drop",
+    "boot": "npm install && npm run build && npm run typeorm:sync",
     "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" ",
     "start": "concurrently \"tsc\" \"node dist/main.js\" ",
     "start:dev": "concurrently -p \"[{name}]\" -n \"TSC,Nodemon\" -c \"bgBlue.bold,bgGreen.bold\" \"tsc --watch\" \"nodemon ./dist/main.js\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "start:api": "./bin/telegram-bot-api.exe --api-id= --api-hash= --local"
+    "format": "prettier --write \"src/**/*.ts\" "
   },
   "dependencies": {
     "axios": "^1.5.1",

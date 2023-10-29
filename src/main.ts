@@ -12,25 +12,22 @@ async function bootstrap() {
   await database.connect();
 
   //start telegram bot api
-  child_process.exec(
-    `${TELEGRAM_API_PATH} --api-id=${botConfig.appId} --api-hash=${botConfig.apiHash} --local`,
-    (error, stdout, stderr) => {
-      if (error) {
-        console.log(error);
-        throw new Error('Error: Telegram bot api is not started');
-      }
-    },
+ const apiProcess =  child_process.spawn(
+    `${TELEGRAM_API_PATH}`, [`--api-id=${botConfig.appId}`, `--api-hash=${botConfig.apiHash}`, '--local']
   );
+
+  apiProcess.on('error', (error)=> {
+    console.log(error);
+    throw new Error('Error: Telegram bot api is not started');
+  })
 
   bot
     .getInstance()
     .telegram.getMe()
-    .then(() => console.log('Bot is started'));
+    .then(() => console.log('Bot is started')).then(() => bot.launch());
 
   process.once('SIGINT', () => bot.getInstance().stop('SIGINT'));
   process.once('SIGTERM', () => bot.getInstance().stop('SIGTERM'));
-
-  await bot.launch();
 }
 
 bootstrap();
