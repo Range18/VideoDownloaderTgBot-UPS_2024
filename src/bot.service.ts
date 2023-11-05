@@ -7,7 +7,6 @@ import {
   ERROR_MESSAGE,
   INVALID_URL_MESSAGE,
   START_CMD_MESSAGE,
-  TELEGRAM_API_PATH,
   YTDL_PATH,
 } from './constants.js';
 import { database } from './main.js';
@@ -55,13 +54,9 @@ export class BotService {
       }
 
       const isAllowed = DOMAINS_REGEX.test(ctx.message.text);
-      const domain = ctx.message.text.match(DOMAINS_REGEX);
 
       if (isAllowed) {
-        const url =
-          domain?.at(0) === 'dzen.ru'
-            ? await this.extractStreamUrlDzen(ctx.message.text)
-            : ctx.message.text;
+        const url = ctx.message.text;
 
         if (!url) {
           ctx.reply(INVALID_URL_MESSAGE);
@@ -153,34 +148,5 @@ export class BotService {
 
   private removeUserRequest(chatId: number): void {
     this.userRequests.delete(chatId);
-  }
-
-  private async extractStreamUrlDzen(url: string): Promise<string | undefined> {
-    try {
-      const response = await fetch(url, { method: 'POST' });
-      const mpdData = await response.text();
-
-      const indexOfMpd = mpdData.indexOf('manifest.mpd');
-      const lastIndexOfMpd = indexOfMpd + 1;
-
-      let streamUrlStart = indexOfMpd;
-
-      const streamUrlArr: string[] = [];
-
-      while (mpdData[streamUrlStart] !== '"') {
-        streamUrlArr.unshift(mpdData[streamUrlStart]!);
-        streamUrlStart--;
-      }
-
-      let streamUrlEnd = lastIndexOfMpd;
-
-      while (mpdData[streamUrlEnd] !== '"') {
-        streamUrlArr.push(mpdData[streamUrlEnd]!);
-        streamUrlEnd++;
-      }
-      return streamUrlArr.join('');
-    } catch (error) {
-      console.log(error);
-    }
   }
 }
