@@ -3,7 +3,7 @@ import { resolve } from 'path';
 export const DOMAINS_REGEX = RegExp(
   /(vk\.com|youtube\.com|dzen\.ru|youtu\.be)/,
 );
-export const YTDL_PATH = resolve(process.cwd(), 'bin', 'yt-dlp.exe');
+export const YTDL_PATH = resolve(process.cwd(), 'bin', 'yt-dlp');
 
 export const TELEGRAM_API_PATH = resolve(
   process.cwd(),
